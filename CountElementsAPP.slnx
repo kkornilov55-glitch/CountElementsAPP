@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ClassLibrary/ClassLibrary.csproj" Id="7167c61d-1534-41fa-b0ab-6a953a619177" />
+  <Project Path="CountElementsAPP/CountElementsAPP.csproj" />
+</Solution>
