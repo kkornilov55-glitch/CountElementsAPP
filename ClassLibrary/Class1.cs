@@ -5,7 +5,7 @@ namespace ClassLibrary
     public class MassSum
     {
         public static bool error = false;
-        static int[] mass;
+        private static int[] mass;
 
         public static void GenerateArray(int countElements)
         {
@@ -15,6 +15,13 @@ namespace ClassLibrary
             mass = new int[countElements];
             for (int i = 0; i < countElements; i++) 
                 mass[i] = rnd.Next(MIN_VALUE, MAX_VALUE);
+        }
+
+        public static string PrintArray()
+        {
+            string array = string.Empty;
+            foreach (int el in mass) array += (el + ' ');
+            return array;
         }
 
         public static string IterativeCalc()

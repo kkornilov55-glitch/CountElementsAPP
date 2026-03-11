@@ -38,9 +38,7 @@
             GenerateB = new Button();
             label4 = new Label();
             label5 = new Label();
-            IterativeB = new Button();
-            RecursionB = new Button();
-            AllCalcB = new Button();
+            CalcB = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -153,38 +151,16 @@
             label5.Text = "Рекурсивно";
             label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // IterativeB
+            // CalcB
             // 
-            IterativeB.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            IterativeB.ForeColor = Color.FromArgb(87, 87, 87);
-            IterativeB.Location = new Point(12, 395);
-            IterativeB.Name = "IterativeB";
-            IterativeB.Size = new Size(382, 39);
-            IterativeB.TabIndex = 9;
-            IterativeB.Text = "Посчитать";
-            IterativeB.UseVisualStyleBackColor = true;
-            // 
-            // RecursionB
-            // 
-            RecursionB.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            RecursionB.ForeColor = Color.FromArgb(87, 87, 87);
-            RecursionB.Location = new Point(416, 395);
-            RecursionB.Name = "RecursionB";
-            RecursionB.Size = new Size(401, 39);
-            RecursionB.TabIndex = 10;
-            RecursionB.Text = "Посчитать";
-            RecursionB.UseVisualStyleBackColor = true;
-            // 
-            // AllCalcB
-            // 
-            AllCalcB.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            AllCalcB.ForeColor = Color.FromArgb(87, 87, 87);
-            AllCalcB.Location = new Point(541, 206);
-            AllCalcB.Name = "AllCalcB";
-            AllCalcB.Size = new Size(183, 39);
-            AllCalcB.TabIndex = 11;
-            AllCalcB.Text = "Посчитать полностью";
-            AllCalcB.UseVisualStyleBackColor = true;
+            CalcB.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            CalcB.ForeColor = Color.FromArgb(87, 87, 87);
+            CalcB.Location = new Point(541, 206);
+            CalcB.Name = "CalcB";
+            CalcB.Size = new Size(183, 39);
+            CalcB.TabIndex = 11;
+            CalcB.Text = "Посчитать";
+            CalcB.UseVisualStyleBackColor = true;
             // 
             // CountElementsF
             // 
@@ -192,9 +168,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.MediumTurquoise;
             ClientSize = new Size(829, 845);
-            Controls.Add(AllCalcB);
-            Controls.Add(RecursionB);
-            Controls.Add(IterativeB);
+            Controls.Add(CalcB);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(GenerateB);
@@ -205,7 +179,7 @@
             Controls.Add(label2);
             Controls.Add(panel1);
             Name = "CountElementsF";
-            Text = "CountElementsF";
+            Text = "Сумма элементов массива";
             panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -225,6 +199,6 @@
         private Label label5;
         private Button IterativeB;
         private Button RecursionB;
-        private Button AllCalcB;
+        private Button CalcB;
     }
 }
