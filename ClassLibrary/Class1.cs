@@ -35,23 +35,22 @@ namespace ClassLibrary
             return sum.ToString();
         }
 
-        private static string RecursionCalc(int indx, long sum)
+        public static string RecursionCalc()
         {
-            //Базовый случай
-            if (indx == mass.Length)
-                return sum.ToString();
-
-            //Проверка переполнения
-            if (sum + mass[indx] > long.MaxValue)
-            {
-                error = true;
-                return "Ошибка: Переполнение Long!";
-            }
-            //Расчёт суммы
-            sum += mass[indx];
-
-            return RecursionCalc(indx + 1, sum);
+            return Convert.ToString(RecursionRange(0, mass.Length));
         }
+        private static long RecursionRange(long l, long r)
+        {
+            if (l > r) return 0;
+            if (l == r) return mass[l];
+
+            long mid = (l + r) / 2;
+            long sumLeft = RecursionRange(0, mid);
+            long sumRight = RecursionRange(mid + 1, mass.Length);
+
+            return sumLeft + sumRight;
+        }
+
 
     }
 }
