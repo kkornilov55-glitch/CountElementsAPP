@@ -5,21 +5,24 @@ namespace ClassLibrary
     public class MassSum
     {
         public static bool error = false;
-        const int MAX_VALUE = 100000;
-        const int MIN_VALUE = 100;
+        static int[] mass;
 
-        public static string IterativeCalc(int[] mass)
+        public static void GenerateArray(int countElements)
+        {
+            Random rnd = new Random();
+            const int MAX_VALUE = 100000;
+            const int MIN_VALUE = 100;
+            mass = new int[countElements];
+            for (int i = 0; i < countElements; i++) 
+                mass[i] = rnd.Next(MIN_VALUE, MAX_VALUE);
+        }
+
+        public static string IterativeCalc()
         {
             long sum = 0;
 
             foreach (int el in mass)
             {
-                if (el < MIN_VALUE || el > MAX_VALUE)
-                {
-                    error = true;
-                    return "Ошибка: Значение элемента выходит за границы допустимого!";
-                }
-
                 if (sum + el > long.MaxValue)
                 {
                     error = true;
@@ -32,26 +35,22 @@ namespace ClassLibrary
             return sum.ToString();
         }
 
-        private static string RecursionCalc(int[] mass, int indx, long sum)
+        private static string RecursionCalc(int indx, long sum)
         {
+            //Базовый случай
             if (indx == mass.Length)
                 return sum.ToString();
 
+            //Проверка переполнения
             if (sum + mass[indx] > long.MaxValue)
             {
                 error = true;
                 return "Ошибка: Переполнение Long!";
             }
-
-            if (mass[indx] > MAX_VALUE || mass[indx] < MIN_VALUE)
-            {
-                error = true;
-                return "Ошибка: Значение элемента выходит за допустимые границы!";
-            }
-
+            //Расчёт суммы
             sum += mass[indx];
 
-            return RecursionCalc(mass, indx + 1, sum);
+            return RecursionCalc(indx + 1, sum);
         }
 
     }
