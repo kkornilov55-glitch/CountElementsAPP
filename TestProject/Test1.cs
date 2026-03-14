@@ -198,7 +198,7 @@ namespace TestProject
             double time;
             string result = massSum.RecursionCalc(out time, ref steps);
             Assert.AreEqual("Тестовая ошибка",
-                result);
+                        result);
             Assert.AreEqual(0, time);
             Assert.AreEqual(8, steps); // 5 + 3 = 8
         }
