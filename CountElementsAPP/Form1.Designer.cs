@@ -211,6 +211,7 @@
             CalcB.TabIndex = 11;
             CalcB.Text = "Посчитать";
             CalcB.UseVisualStyleBackColor = true;
+            CalcB.Visible = false;
             CalcB.Click += CalcB_Click;
             // 
             // label6

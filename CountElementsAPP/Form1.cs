@@ -1,4 +1,5 @@
 using ClassLibrary;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CountElementsAPP
 {
@@ -9,43 +10,54 @@ namespace CountElementsAPP
             InitializeComponent();
         }
 
+        public MassSum calc = new MassSum();
+
         private void GenerateB_Click(object sender, EventArgs e)
         {
-            const int maxElements = 1000000;
             int ce;
             try
             {
                 ce = int.Parse(cauntElementsTB.Text);
-                MassSum.GenerateArray(ce);
-                if (MassSum.error)
+                calc.GenerateArray(ce);
+                if (calc.error)
                 {
-                    MessageBox.Show(MassSum.msgError, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    MassSum.error = false;
+                    MessageBox.Show(calc.msgError, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    calc.error = false;
                     return;
                 }
             }
             catch (FormatException)
             {
                 MessageBox.Show("Ошибка при генерации массива. Введите корректное количество элементов.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                MassSum.error = false;
+                calc.error = false;
                 return;
             }
 
-            if (ce <= maxElements)
-                massTB.Text = MassSum.PrintArray();
-            else
-                massTB.Text = "Массив слишком большой. Кол-во элементов: " + ce.ToString();
+            massTB.Text = calc.PrintArray();
+            CalcB.Visible = true;
         }
         private void CalcB_Click(object sender, EventArgs e)
         {
             long stepsRec = 0, stepsIter = 0;
 
-            string iterRes = MassSum.IterativeCalc(out double timeIter, ref stepsIter);
-            string recRes = MassSum.RecursionCalc(out double timeRec, ref stepsRec);
+            string iterRes = calc.IterativeCalc(out double timeIter, ref stepsIter);
+            string recRes = calc.RecursionCalc(out double timeRec, ref stepsRec);
 
             resultsGV.Rows.Clear();
-            resultsGV.Rows.Add("Итеративный", timeIter.ToString() + " мс", stepsIter);
+            resultsGV.Rows.Add("Итеративный", timeIter.ToString() + " мс", stepsIter); 
+            if (calc.error)
+            {
+                MessageBox.Show(calc.msgError, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                calc.error = false;
+                return;
+            }
             resultsGV.Rows.Add("Рекурсивный", timeRec.ToString() + " мс", stepsRec);
+            if (calc.error)
+            {
+                MessageBox.Show(calc.msgError, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                calc.error = false;
+                return;
+            }
 
 
             IterSumL.Text = iterRes;

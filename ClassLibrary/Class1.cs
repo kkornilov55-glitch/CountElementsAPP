@@ -4,103 +4,118 @@ namespace ClassLibrary
 {
     public class MassSum
     {
-        public static bool error = false;
-        public static string msgError;
-        private static int[] mass;
+        public bool error = false;
+        public string msgError;
+        private int[] mass;
+        private static readonly Random rnd = new Random();
 
-        public static void GenerateArray(int countElements)
+        /// <summary>
+        /// Генерирует массив случайных чисел заданного размера.
+        /// </summary>
+        /// <param name="countElements">Количество элементов (от 1 до 100000).</param>
+        public void GenerateArray(int countElements)
         {
-            Random rnd = new Random();
-            const int MAX_VALUE = 100000;
-            const int MIN_VALUE = 100;
-            const int MAX_COUNT = 100000;
-
-            // Проверка на отрицательное количество элементов
+            // Проверка на отрицательное или нулевое количество элементов
             if (countElements <= 0)
             {
                 error = true;
-                msgError = "Число элементов должно быть положительным!";
+                msgError = "Число элементов должно быть больше 0!";
+                return;
+            }
+
+            // Проверка максимального размера
+            if (countElements > 100000)
+            {
+                error = true;
+                msgError = "Превышен максимальный размер массива (100000)";
                 return;
             }
 
             mass = new int[countElements];
             for (int i = 0; i < countElements; i++)
             {
-                mass[i] = rnd.Next(MIN_VALUE, MAX_VALUE);
-
+                mass[i] = rnd.Next(100, 100000);
             }
-
         }
 
-        public static string PrintArray()
+        /// <summary>
+        /// Возвращает строковое представление массива.
+        /// </summary>
+        public string PrintArray()
         {
+            if (mass == null) return "Массив не создан";
+            //if (mass.Length == 0) return string.Empty;
+
             string array = string.Empty;
-            foreach (int el in mass) array += (el + ", ");
+            foreach (int el in mass)
+                array += (el + ", ");
+
             return array.Remove(array.Length - 2);
         }
 
-        public static string IterativeCalc(out double time, ref long steps)
+        /// <summary>
+        /// Итеративное вычисление суммы элементов массива.
+        /// </summary>
+        /// <param name="time">Время выполнения в миллисекундах.</param>
+        /// <param name="steps">Счётчик элементарных операций.</param>
+        /// <returns>Строка с суммой или пустая строка при ошибке.</returns>
+        public string IterativeCalc(out double time, ref long steps)
         {
             Stopwatch timer = new Stopwatch();
-            timer.Start(); //----------------------------------------
+            timer.Start();
 
             long sum = 0;
             steps++;
+
             foreach (int el in mass)
             {
-                if (sum + el > long.MaxValue)
-                {
-                    error = true;
-                    msgError = "Переполнение Long!";
-                    time = 0;
-                    steps = 0;
-                    return string.Empty;
-                }
-
                 sum += el;
                 steps += 3;
             }
-            timer.Stop(); //-----------------------------------------
 
+            timer.Stop();
             time = timer.Elapsed.TotalMilliseconds;
             steps++;
 
             return sum.ToString();
         }
 
-        public static string RecursionCalc(out double time, ref long steps)
+        /// <summary>
+        /// Рекурсивное вычисление суммы элементов массива (метод «разделяй и властвуй»).
+        /// </summary>
+        public string RecursionCalc(out double time, ref long steps)
         {
-            Stopwatch timer = new Stopwatch();
-            steps = 4;
-
             if (error)
             {
                 time = 0;
-                return "ОШИБКА: Переполнение стека вызовов!";
+                steps += 3;
+                return msgError;
             }
-            else
-            {
-                timer.Start(); //----------------------------------------
-                long sum = RecursionRange(0, mass.Length - 1, ref steps);
-                timer.Stop();  //----------------------------------------
 
-                time = timer.Elapsed.TotalMilliseconds;
-                return Convert.ToString(sum);
-            }
+            Stopwatch timer = new Stopwatch();
+            steps += 4; // исправлено: добавляем, а не присваиваем
+            timer.Start();
+
+            long sum = RecursionRange(0, mass.Length - 1, ref steps);
+
+            timer.Stop();
+            time = timer.Elapsed.TotalMilliseconds;
+
+            return sum.ToString();
         }
-        private static long RecursionRange(long l, long r, ref long steps)
+
+        private long RecursionRange(long l, long r, ref long steps)
         {
             if (l > r) return 0;
             if (l == r) return mass[l];
+
             steps += 1;
 
             long mid = (l + r) / 2;
-            steps += 3;
+            steps += 4;
 
-            long sumLeft, sumRight;
-
-            sumLeft = RecursionRange(l, mid, ref steps);
-            sumRight = RecursionRange(mid + 1, r, ref steps);
+            long sumLeft = RecursionRange(l, mid, ref steps);
+            long sumRight = RecursionRange(mid + 1, r, ref steps);
 
             steps++;
             return sumLeft + sumRight;
